@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications & Alerts - Intel Transit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header img {
+            width: 62px;
+            height: 62px;
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 900px;
+        }
+
+        .notification-panel {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+        }
+
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+            list-style: none;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .notification-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            margin: 10px 5px 0;
+        }
+
+        .alert-type {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .timestamp {
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a href="" id="toggleCollapseButton" class="sidebar-toggle">
+            <button class="btn btn-light">Home</button>
+        </a>
+        <img src="{% static 'Intel Transit Logo.png'%}" alt="Intel Transit Logo">
+    </header>
+
+    <!-- Notifications Section -->
+    <div class="container">
+        <div class="notification-panel">
+            <div class="notification-header">Notifications & Alerts</div>
+            <ul class="notification-list" id="notificationList">
+                <!-- Dynamic Notifications will appear here -->
+            </ul>
+        </div>
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" onclick="addMaintenanceReminder()">Add Maintenance Reminder</button>
+            <button class="btn btn-secondary" onclick="addRouteNotification()">Add Route Notification</button>
+            <button class="btn btn-danger" onclick="addEmergencyAlert()">Add Emergency Alert</button>
+        </div>
+    </div>
+
+    <script>
+        // Helper function to generate timestamps
+        function getCurrentTimestamp() {
+            const now = new Date();
+            return `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+        }
+
+        // Function to create a new notification item
+        function addNotification(type, message) {
+            const notificationList = document.getElementById('notificationList');
+
+            // Create a new list item
+            const listItem = document.createElement('li');
+            listItem.className = 'notification-item';
+
+            listItem.innerHTML = `
+                <span class="alert-type">${type}</span>: ${message}
+                <div class="timestamp">${getCurrentTimestamp()}</div>
+            `;
+
+            // Add the notification to the list
+            notificationList.prepend(listItem);
+        }
+
+        // Add Maintenance Reminder
+        function addMaintenanceReminder() {
+            addNotification(
+                'Maintenance Reminder',
+                'Vehicle ID V001 is due for an oil change on 2025-02-01.'
+            );
+        }
+
+        // Add Route Notification
+        function addRouteNotification() {
+            addNotification(
+                'Route Notification',
+                'Route R001 is experiencing delays due to heavy traffic.'
+            );
+        }
+
+        // Add Emergency Alert
+        function addEmergencyAlert() {
+            addNotification(
+                'Emergency Alert',
+                'Vehicle ID V002 reported a breakdown near Route R003.'
+            );
+        }
+    </script>
+</body>
+</html>

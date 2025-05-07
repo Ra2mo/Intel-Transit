@@ -1,0 +1,80 @@
+{% csrf_token %}
+{% load static %}
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>route history</title>
+    <style>
+     small{
+        font-size:20px;
+     }
+    </style>
+    
+</head>
+<body>
+    <div>
+        <p>welcome to see driver info</p>
+        {%for d in driverprofile%}
+            <p><small>{{d.Driver_id}}</small> <small> {{d.firstname}}</small> <small> {{d.license_Type}}</small> <small> {{d.Phonenumber}}<small> </p>
+         {% endfor %}  
+         <p>to edit driver iformation ,you have to login to admin panel to do so please<p>     
+        <a href="/drivermanagement/">return back</a>
+    </div>
+   
+</body>-->
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four-Column Table</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            text-align: left;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        p {text-align: center;}
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>DRIVER_ID</th>
+                <th>FIRSTNAME</th>
+                <th>LICENCE_TYPE</th>
+                <th>PHONENUMBER</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for d in driverprofile%}
+            <tr>
+                <td>{{d.Driver_id}}</td>
+                <td>{{d.firstname}}</td>
+                <td>{{d.license_Type}}</td>
+                <td>{{d.Phonenumber}}</td>
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+    <p><a href="/drivermanagement/">return back</a></p>
+</body>
+</html>

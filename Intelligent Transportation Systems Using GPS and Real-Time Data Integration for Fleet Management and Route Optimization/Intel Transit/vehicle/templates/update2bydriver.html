@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login or sign up</title>
+   <style>
+</style>
+</head>
+<body>
+    <!--<p class="aa">sign up if you have no account or log in if you have account</p>
+    <p style="text-align: center;">use either of the two pages to login if already have an account or to sign up if your first time to use this service</p>
+-->     
+     <form action="" name="form" method="POST">
+       <!-- {% csrf_token %}-->
+     <label for="name">assumed_distances</label>
+     <input type="text" name="firstname" id="name" placeholder="assumed_distances">
+     <span id="sap"></span>
+     <label for="name2">latitude_arrivals</label>
+     <input type="text" name="secondname" id="name2" placeholder="latitude_arrivals">
+     <span id="sap1"></span>
+     <label for="name3">long_arrivals</label><!--javascript-->
+     <input type="password" name="password" id="name3" placeholder="long_arrivals">
+     <span id="sap2"></span>
+     <label for="name4">dates</label>
+     <input type="tel" name="dates" id="name4" placeholder="date correct format that you were issued on start'[Mon Mar 24 08:25:17 2025]'">
+     <span id="sap3"></span>
+      <input type="submit" value="login" class="loginsub" onclick="paul()" >
+     <a href="/">sign up</a>  
+     </form>
+    </div>
+    </div>
+    <script>
+ /* document.getElementById("submiting").addEventListener("click",function(){
+   var a=document.getElementById("name").value
+     var b=document.getElementById("name2").value
+     var c=document.getElementById("name3").value
+     var d=document.getElementById("name4").value
+     var e=document.getElementById("name5").value
+     //var w=( /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/);
+     var z=(/^\d{10}$/);
+    //event.preventDefault()
+    if(a==" " || a.length<3){
+     document.getElementById("sap").innerHTML="wrong name";
+     document.getElementById("sap").style.color="red";
+    }
+    else{
+     document.getElementById("sap").innerHTML="valid name";
+     document.getElementById("sap").style.color="blue";
+    }
+     if(b==" " || b.length<3 || b==a){
+     document.getElementById("sap1").innerHTML="wrong name";
+     document.getElementById("sap1").style.color="red";
+    }
+    else{
+     document.getElementById("sap1").innerHTML="valid name";
+     document.getElementById("sap1").style.color="blue";}
+  if(c==" " || c.length<8){
+     document.getElementById("sap2").innerHTML="wrong password";
+     document.getElementById("sap2").style.color="red";
+    }
+    else{
+     document.getElementById("sap2").innerHTML="valid password";
+     document.getElementById("sap2").style.color="blue";}
+     if(d.match(z)==null){
+     document.getElementById("sap3").innerHTML="wrong phonenumber";
+     document.getElementById("sap3").style.color="red";
+    }
+    else{
+     document.getElementById("sap3").innerHTML="valid phone number";
+     document.getElementById("sap3").style.color="blue";}
+    // if(e.match(w)==null){
+    // document.getElementById("sap4").innerHTML="wrong email";
+    // document.getElementById("sap4").style.color="red";
+  //  }
+   // else{
+    // document.getElementById("sap4").innerHTML="valid email";
+     //document.getElementById("sap4").style.color="blue";}
+     if(//(e.match(w)==null) 
+      (d.match(z)==null) || (c==" " || c.length<8) ||
+     (a==" " || a.length<3) || (b==" " || b.length<3))
+     {event.preventDefault();}
+     else{
+       alert("you have now registered")
+     }
+  })*/
+ 
+  
+    </script>
+</body>
+</html>

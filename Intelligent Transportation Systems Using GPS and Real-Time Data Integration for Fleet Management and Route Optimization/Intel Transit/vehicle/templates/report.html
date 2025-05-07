@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports and Analytics - Intel Transit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header img {
+            width: 62px;
+            height: 62px;
+        }
+
+        .tabs-container {
+            background-color: #f1f1f1;
+            border-bottom: 2px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .tab.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .tab-content {
+            padding: 20px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f1f1f1;
+        }
+
+        .btn {
+            margin: 10px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a href="" id="toggleCollapseButton" class="sidebar-toggle">
+            <button class="btn btn-light">Home</button>
+        </a>
+        <img src="{% static 'Intel Transit Logo.png'%}" alt="Intel Transit Logo">
+    </header>
+
+    <!-- Tabs for Reports -->
+    <div class="tabs-container">
+        <div class="tab active" data-tab="fuel-report">Fuel Consumption Report</div>
+        <div class="tab" data-tab="maintenance-report">Maintenance Report</div>
+        <div class="tab" data-tab="route-efficiency-report">Route Efficiency</div>
+        <div class="tab" data-tab="driver-performance-report">Driver Performance</div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="container">
+        <!-- Fuel Consumption Report -->
+        <div class="tab-content active" id="fuel-report">
+            <h2>Fuel Consumption Report</h2>
+            <table id="fuelTable">
+                <thead>
+                    <tr>
+                        <th>Vehicle ID</th>
+                        <th>Fuel Used (L)</th>
+                        <th>Distance (km)</th>
+                        <th>Fuel Efficiency (km/L)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example Data -->
+                    <tr><td>V001</td><td>50</td><td>500</td><td>10</td></tr>
+                    <tr><td>V002</td><td>60</td><td>540</td><td>9</td></tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="downloadReport('fuelTable', 'Fuel Consumption Report', 'pdf')">Download as PDF</button>
+            <button class="btn btn-secondary" onclick="downloadReport('fuelTable', 'Fuel Consumption Report', 'excel')">Download as Excel</button>
+        </div>
+
+        <!-- Maintenance Report -->
+         <form method="POST" action="">
+            {%csrf_token%} 
+            <input type="text" placeholder="enter vehicle_id" name="obara">
+            <button type="submit">get more maintainance report</button>
+         </form>
+        <div class="tab-content" id="maintenance-report">
+            <h2>Maintenance Report</h2>
+            <table id="maintenanceTable">
+                <thead>
+                    <tr>
+                        <th>Vehicle ID</th>
+                        <th>Last Service Date</th>
+                        <th>Maintenance Type</th>
+                        <th>Next Scheduled Service</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example Data -->
+                    <tr><td>V001</td><td>2025-01-01</td><td>Oil Change</td><td>2025-02-01</td></tr>
+                    <tr><td>V002</td><td>2025-01-15</td><td>Tire Rotation</td><td>2025-02-15</td></tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="downloadReport('maintenanceTable', 'Maintenance Report', 'pdf')">Download as PDF</button>
+            <button class="btn btn-secondary" onclick="downloadReport('maintenanceTable', 'Maintenance Report', 'excel')">Download as Excel</button>
+        </div>
+
+        <!-- Route Efficiency Report -->
+        <div class="tab-content" id="route-efficiency-report">
+            <h2>Route Efficiency Report</h2>
+            <table id="routeEfficiencyTable">
+                <thead>
+                    <tr>
+                        <th>Route ID</th>
+                        <th>Distance (km)</th>
+                        <th>Average Time (hours)</th>
+                        <th>Fuel Consumed (L)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example Data -->
+                    <tr><td>R001</td><td>300</td><td>4</td><td>30</td></tr>
+                    <tr><td>R002</td><td>400</td><td>5</td><td>40</td></tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="downloadReport('routeEfficiencyTable', 'Route Efficiency Report', 'pdf')">Download as PDF</button>
+            <button class="btn btn-secondary" onclick="downloadReport('routeEfficiencyTable', 'Route Efficiency Report', 'excel')">Download as Excel</button>
+        </div>
+
+        <!-- Driver Performance Report -->
+        <div class="tab-content" id="driver-performance-report">
+            <h2>Driver Performance Report</h2>
+            <table id="driverPerformanceTable">
+                <thead>
+                    <tr>
+                        <th>Driver ID</th>
+                        <th>Safety Score</th>
+                        <th>Idle Time (hours)</th>
+                        <th>Average Speed (km/h)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example Data -->
+                    <tr><td>D001</td><td>95</td><td>2</td><td>60</td></tr>
+                    <tr><td>D002</td><td>88</td><td>1.5</td><td>55</td></tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="downloadReport('driverPerformanceTable', 'Driver Performance Report', 'pdf')">Download as PDF</button>
+            <button class="btn btn-secondary" onclick="downloadReport('driverPerformanceTable', 'Driver Performance Report', 'excel')">Download as Excel</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Download Report as PDF or Excel
+        function downloadReport(tableId, reportName, format) {
+            const table = document.getElementById(tableId);
+
+            if (format === 'pdf') {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                pdf.text(reportName, 10, 10);
+                pdf.autoTable({ html: `#${tableId}` });
+                pdf.save(`${reportName}.pdf`);
+            } else if (format === 'excel') {
+                const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+                XLSX.writeFile(wb, `${reportName}.xlsx`);
+            }
+        }
+    </script>
+</body>
+</html>

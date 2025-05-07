@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <div class="container">
+
+        <h2>Login</h2>
+        <input type="text" id="username" name="username" placeholder="Enter Username">
+        <span class="error" id="userError"></span>
+        
+        <input type="text" id="password" placeholder="Enter Password" name="password">
+        <span class="error" id="passError"></span>
+
+        <button type="submit" onclick="validateForm()">Login</button>
+    </div>
+  </form>
+    <script>
+        function validateForm() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let userError = document.getElementById("userError");
+            let passError = document.getElementById("passError");
+
+            userError.innerText = "";
+            passError.innerText = "";
+
+            if (username === "") {
+                userError.innerText = "Username is required!";
+                return false;
+            }
+
+            if (password === "") {
+                passError.innerText = "Password is required!";
+                return false;
+            }
+
+            alert("Login Successful!");
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+{% csrf_token %}
+{% load static %}
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>route history</title>
+    <style>
+     small{
+        font-size:20px;
+     }
+    </style>
+    
+</head>
+<body>
+    <div>
+        <p>welcome to see roots your vehicle has being gooing</p>
+        {%for d in history%}
+            <p><small>{{d.vehicle_id}}</small> <small> {{d.start_location}}</small> <small> {{d.end_location}}</small> <small> {{d.distance}}km/h<small> <small> {{d.date}}</small> </p>
+         {% endfor %}       
+        <a href="/fleetmanagement/">return back</a>
+    </div>
+   
+</body>
+</html>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four-Column Table</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            text-align: left;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        p {text-align: center;}
+    </style>
+</head>
+<body>
+    <table>
+        <p>welcome to see roots your vehicle has being gooing</p>
+        <thead>
+            <tr>
+                <th>VEHICLE_ID</th>
+                <th>STARTLOCATION</th>
+                <th>ENDLOCATION</th>
+                <th>DISTANCE</th>
+                <th>DATE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for d in history%}
+            <tr>
+                <td>{{d.vehicle_id}}</td>
+                <td>{{d.start_location}}</td>
+                <td>{{d.end_location}}</td>
+                <td>{{d.distance}}km/h</td>
+                <td>{{d.date}}km/h</td>
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+    <p><a href="/fleetmanagement/">return back</a></p>
+</body>
+</html>

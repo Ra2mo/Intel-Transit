@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Intel Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+   <!-- <link rel="stylesheet" href="style.css">-->
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Sidebar */
+        .main-sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #222;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .main-sidebar.collapsed {
+            width: 60px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar-menu li {
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .sidebar-menu li:hover {
+            background-color: #007bff;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .main-content.collapsed {
+            margin-left: 70px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 45%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            color: white;
+            padding: 7px 14px;
+        }
+
+        .menu-toggle {
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle i {
+            margin-right: 10px;
+        }
+
+        .logout-btn {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .logout-btn:hover {
+            background-color: darkred;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #007bff;
+            color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="#" id="toggleCollapseButton" class="sidebar-toggle" onclick="toggleSidebar()">
+            <button class="openbtn">☰ Menu</button>
+        </a>
+        <div class="logo">
+            <img src="{% static 'Intel Transit Logo.png'%}" alt="Intel Transit Logo" style="width: 62px; height: 62px;">
+        </div>        
+        <p class="logout-btn"><a href="/">Log Out</a></p>
+    
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="main-sidebar" id="sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a ><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                <li><a href="setups/"><i class="fa fa-cogs"></i> <span>Setups</span></a></li>
+                <li><a href="fleetmanagement/"><i class="fa fa-car"></i> <span>Fleet/Vehicle Management</span></a></li>
+                <li><a href="routemanagement/"><i class="fa fa-map"></i> <span>Route Management</span></a></li>
+                <li><a href="FleetTracking/" ><i class="fa fa-location-arrow"></i> <span>Fleet Tracking</span></a></li>
+                <li><a href="drivermanagement/"><i class="fa fa-id-card"></i> <span>Driver Management</span></a></li>
+                <li><a href="report/"><i class="fa fa-file"></i> <span>Reports</span></a></li>
+                <li><a href="notification/"><i class="fa fa-bell"></i> <span>Notifications & Alerts</span></a></li>
+                <!--<li><a ><i class="fa fa-cog"></i> <span>Settings</span></a></li>-->
+            </ul>
+        </section>
+    </aside>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent" style="margin-left:260px; padding:20px; transition:all 0.3s ease-in-out;">
+            <h1>Intel Transit Dashboard</h1>
+            <p>Summary of fleet, driver, and route data.</p>
+    
+            <div class="dashboard-container" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:space-around;">
+                <!-- Fleet Statistics Chart -->
+                <div class="chart-container" style="background:white; padding:20px; border-radius:10px; width:35%; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+                    <h3>Fleet Statistics</h3>
+                    <canvas id="fleetChart"></canvas>
+                </div>
+    
+                <!-- Fuel Consumption Chart -->
+                <div class="chart-container" style="background:white; padding:20px; border-radius:10px; width:35%; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+                    <h3>Fuel Consumption</h3>
+                    <canvas id="fuelChart"></canvas>
+                </div>
+    
+                <!-- Route Efficiency Chart -->
+                <div class="chart-container" style="background:white; padding:20px; border-radius:10px; width:35%; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+                    <h3>Route Efficiency</h3>
+                    <canvas id="routeChart"></canvas>
+                </div>
+    
+                <!-- Driver Performance Chart -->
+                <div class="chart-container" style="background:white; padding:20px; border-radius:10px; width:35%; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+                    <h3>Driver Performance</h3>
+                    <canvas id="driverChart"></canvas>
+                </div>
+            </div>
+        </div>
+ <!-- Footer Section -->
+ <footer>
+    <p>Contact us at: support@inteltransit.com | Phone: +254-794-907-741</p>
+    <p>Address: 123 Fleet Drive, Transit City, TC 56789</p>
+</footer>
+<!--JavaScript-->
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("collapsed");
+            document.getElementById("mainContent").classList.toggle("collapsed");
+        }
+
+        function logout() {
+            alert("Logging out...");
+            window.location.href = "home.html";
+        }
+
+        // Sample Data for Charts
+        const fleetData = {
+            labels: ["Active Vehicles", "In Service", "Inactive"],
+            datasets: [{
+                label: "Fleet Status",
+                data: [50, 30, 20],
+                backgroundColor: ["green", "blue", "red"]
+            }]
+        };
+
+        const fuelData = {
+            labels: ["Vehicle A", "Vehicle B", "Vehicle C"],
+            datasets: [{
+                label: "Fuel Consumption (Liters)",
+                data: [120, 200, 150],
+                backgroundColor: ["yellow", "orange", "brown"]
+            }]
+        };
+
+        const routeData = {
+            labels: ["Route A", "Route B", "Route C"],
+            datasets: [{
+                label: "Route Efficiency (%)",
+                data: [85, 70, 90],
+                backgroundColor: ["purple", "cyan", "pink"]
+            }]
+        };
+
+        const driverData = {
+            labels: ["Driver A", "Driver B", "Driver C"],
+            datasets: [{
+                label: "Performance Rating",
+                data: [4.5, 3.8, 4.2],
+                backgroundColor: ["lightblue", "grey", "darkblue"]
+            }]
+        };
+
+        new Chart(document.getElementById("fleetChart"), { type: "pie", data: fleetData });
+        new Chart(document.getElementById("fuelChart"), { type: "bar", data: fuelData });
+        new Chart(document.getElementById("routeChart"), { type: "bar", data: routeData });
+        new Chart(document.getElementById("driverChart"), { type: "bar", data: driverData });
+    </script>
+
+</body>
+</html>

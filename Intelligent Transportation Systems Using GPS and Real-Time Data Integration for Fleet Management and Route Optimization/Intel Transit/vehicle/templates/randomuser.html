@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .signup-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>update the service</h2>
+        <form id="myForm" method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="firstname">vehicle_id</label>
+                <input type="text" name="vehicleid" id="firstname" placeholder="vehicle_id">
+                <span class="error" id="error-firstname"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="secondname">last service date</label>
+                <input type="text" name="lastservicedate" id="secondname" placeholder="last service date">
+                <span class="error" id="error-secondname"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="username">maintainance type</label>
+                <input type="text" name="maintancetype" id="username" placeholder="maintainance type">
+                <span class="error" id="error-username"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">next scheduled service</label>
+                <input type="text" name="nextscheduled" id="password" placeholder="sevice_type">
+                <span class="error" id="error-password"></span>
+            </div>
+            <button type="submit" class="submit-btn">Update</button>
+            <a href="/" class="signup-link">return back</a>  
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            let isValid = true;
+
+            let firstname = document.getElementById("firstname");
+            let secondname = document.getElementById("secondname");
+            let username = document.getElementById("username");
+            let password = document.getElementById("password");
+            let company = document.getElementById("company_name");
+
+            let errorFirstname = document.getElementById("error-firstname");
+            let errorSecondname = document.getElementById("error-secondname");
+            let errorUsername = document.getElementById("error-username");
+            let errorPassword = document.getElementById("error-password");
+            let errorCompany = document.getElementById("error-company");
+
+            // Reset previous errors
+            errorFirstname.style.display = "none";
+            errorSecondname.style.display = "none";
+            errorUsername.style.display = "none";
+            errorPassword.style.display = "none";
+            errorCompany.style.display = "none";
+
+            if (firstname.value.trim() === "" || firstname.value.trim().length < 3) {
+                errorFirstname.style.display = "block";
+                isValid = false;
+            }
+            if (secondname.value.trim() === "" || secondname.value.trim().length < 3 || secondname.value.trim() === firstname.value.trim()) {
+                errorSecondname.style.display = "block";
+                isValid = false;
+            }
+            if (username.value.trim() === "") {
+                errorUsername.style.display = "block";
+                isValid = false;
+            }
+            if (password.value.trim() === "" || password.value.trim().length < 8) {
+                errorPassword.style.display = "block";
+                isValid = false;
+            }
+            if (company.value.trim() === "") {
+                errorCompany.style.display = "block";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                alert("You have successfully registered!");
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% csrf_token %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>car</title>
+    <style>
+    .obara1{
+        font-size:25;
+        color:red;
+    }
+    .obara2{
+        font-size:23;
+        color:green;
+    }
+    </style>
+    
+</head>
+<body>
+    <div>
+         <!-- Route Management -->
+         <form method="POST" action="">
+            {%csrf_token%}
+        <div class="tab-content" id="route">
+            <h2>Route Management</h2>
+            <p><small class="obara1" >note</small> you can get distance measures if you are not sure from <small class="obara2"> root optimazation </small> <small class="obara1">under fleet-management</small></p>
+            <div class="form-group">
+                <label for="vehicle-id">Vehicle ID</label>
+                <input type="text" id="vehicle-id" name="vehicleid" pattern="[A-Za-z0-9]+" required>
+            </div>
+            <div class="form-group">
+                <label for="route-end">End Location</label>
+                <input type="text" id="route-end" name="endlocation" pattern="[A-Za-z ]+" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="route-distance">Distance (in KMs)</label>
+                <input type="number" id="route-distance" name="distanceinkilometer" step="0.01" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="route-start">Start Location</label>
+             <input type="text" name="startlocation" id="route-start" pattern="[A-Za-z ]+" required>
+             <button class="btn" type="submit" onclick="registerRoute()">send</button>
+          </div>
+            </form>  
+           <p> <a href="/setups/">ruturn back now</a></p>
+    </div>
+    
+   
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% csrf_token %}
+   {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intel Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #222;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: all 0.3s ease-in-out;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar.closed {
+            left: -250px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #007bff;
+        }
+
+        .close-sidebar {
+            background: red;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            position:relative
+        }
+
+        .menu-btn {
+            background-color: white;
+            color: #007bff;
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .menu-btn:hover {
+            background-color: #ddd;
+        }
+
+
+
+        .logo img {
+            width: 62px;
+            height: 62px;
+            position: absolute;
+            left: 50%;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            transition: margin-left 0.3s ease-in-out;
+            padding: 15px;
+        }
+
+        .main-content.shifted {
+            margin-left: 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+
+        .tab.active {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /*Table*/
+        .data-table {
+            width: 100%;
+            margin-top: 2rem;
+            border-collapse: collapse;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #f1f1f1;
+        }
+         /* Home Button Styling */
+        .home-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .home-btn {
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .home-btn i {
+            font-size: 18px;
+        }
+
+        .home-btn:hover {
+            background-color: #ddd;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            position: relative;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <button class="close-sidebar" onclick="toggleSidebar()">✖ Close</button>
+    <ul>
+        <li><a><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a ><i class="fa fa-cogs"></i> Setups</a></li>
+        <li><a ><i class="fa fa-car"></i> Fleet Management</a></li>
+        <li><a ><i class="fa fa-map"></i> Route Management</a></li>
+        <li><a ><i class="fa fa-location-arrow"></i> Fleet Tracking</a></li>
+        <li><a ><i class="fa fa-id-card"></i> Driver Management</a></li>
+        <li><a ><i class="fa fa-file"></i> Reports</a></li>
+        <li><a><i class="fa fa-bell"></i> Notifications & Alerts</a></li>
+        <li><a ><i class="fa fa-cog"></i> Settings</a></li>
+    </ul>
+</div>
+
+<!-- Header -->
+<header>
+    <button class="menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+    <div class="logo">
+        <img src="{% static 'Intel Transit Logo.png'%}" alt="Intel Transit Logo">
+    </div>
+    <a href="/" class="home-button">
+        <button class="home-btn"><i class="fa fa-home"></i>logout</button>
+    </a>
+</header>
+
+<!-- Main Content -->
+<div class="main-content" id="mainContent">
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="vehicle">Vehicle Registration</div>
+            <div class="tab" data-tab="driver"><a href="driverreg/">Driver Registration</a></div>
+            <div class="tab" data-tab="route"><a href="careg/">Route Management</a></div>
+        </div>
+
+        <!-- Vehicle Registration -->
+         <form method="POST" action="">
+            {%csrf_token%}
+        <div class="tab-content active" id="vehicle">
+            <h2>Vehicle Registration</h2>
+            <div class="form-group">
+                <label for="vehicle-id">Vehicle ID</label>
+                <input type="text" id="vehicle-id" name="vehicleid" pattern="[A-Za-z0-9]+" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="vehicle-make">Make</label>
+                <input type="text" id="vehicle-make" name="make" pattern="[A-Za-z ]+" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="vehicle-model">Model</label>
+                <input type="text" id="vehicle-model" name="model" pattern="[A-Za-z0-9]+" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="vehicle-vin">VIN</label>
+                <input type="text" id="vehicle-vin" placeholder="number only" name="vin" pattern="[A-Za-z0-9]+" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="vehicle-license">License</label>
+                <input type="text" name="license" id="vehicle-license" placeholder="number only">
+            </div>
+            <button class="btn" type="submit"  onclick="registerVehicle()">Register Vehicle</button>
+        </form>
+            <table class="data-table" id="vehicle-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>VIN</th>
+                        <th>License</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Driver Registration -->
+         <form method="POST" actions="">
+            {%csrf_token%}
+        <div class="tab-content" id="driver">
+            <h2>Driver Registration</h2>
+            <div class="form-group">
+                <label for="driver-id">Name</label>
+                <input type="text" id="driver-name" pattern="[A-Za-z ]+" name="name" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="driver-id">Driver ID</label>
+                <input type="text" id="driver-id" pattern="[0-9]+" name="driverid" required>
+                <span class="error"></span>
+            </div>            
+            <div class="form-group">
+                <label for="driver-license">License Type</label>
+                <input type="text" id="driver-license" name="license_type" pattern="[A-Za-z ]+" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="driver-contact">Contact Info</label>
+                <input type="text" id="driver-contact" name="contactInfo" pattern="[0-9]+" required>
+                <span class="error"></span>
+            </div>
+            <button class="btn" type="submit" onclick="registerDriver()">Register Driver</button>
+        </form>
+            <table class="data-table" id="driver-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>ID</th>
+                        <th>License Type</th>
+                        <th>Contact Info</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Route Management -->
+         <form method="POST" action="">
+            {%csrf_token%}
+        <div class="tab-content" id="route">
+            <h2>Route Management</h2>
+            <div class="form-group">
+                <label for="vehicle-id">Vehicle ID</label>
+                <input type="text" id="vehicle-id" name="vehicleid" pattern="[A-Za-z0-9]+" required>
+                <label for="route-id">Route ID</label>
+                <input type="text" id="route-id"  name="routeid" pattern="[A-Za-z0-9]+" required>
+                <span class="error"></span>
+               <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="route-end">End Location</label>
+                <input type="text" id="route-end" name="endlocation" pattern="[A-Za-z ]+" required>
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="route-distance">Distance (in KMs)</label>
+                <input type="number" id="route-distance" name="distanceinkilometer" step="0.01" required>
+                <span class="error"></span>
+            </div>
+            <button class="btn" type="submit" onclick="registerRoute()">Register Route</button>
+        </form>            </div>
+            <div class="form-group">
+                <label for="route-start">Start Location</label>
+                <input type="text" name="startlocation" id="route-start" pattern="[A-Za-z ]+" required>
+ 
+            <table class="data-table" id="route-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Start Location</th>
+                        <th>End Location</th>
+                        <th>Distance</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+
+<!-- Footer -->
+<footer>
+    <p>Contact us at: support@inteltransit.com | Phone: +254-794-907-741</p>
+    <p>Address: 123 Fleet Drive, Transit City, TC 56789</p>
+</footer>
+
+<!-- JavaScript -->
+<script>
+    function toggleSidebar() {
+        let sidebar = document.getElementById("sidebar");
+        let mainContent = document.getElementById("mainContent");
+
+        sidebar.classList.toggle("closed");
+        mainContent.style.marginLeft = sidebar.classList.contains("closed") ? "0" : "250px";
+    }
+
+ // Tab functionality
+ const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+    
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+    
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+    
+        // Function to add Edit & Delete buttons to a row
+        function addRowActions(row, formIds) {
+            row.innerHTML += `
+                <td>
+                    <button class="btn btn-edit" onclick="editRow(this, '${formIds.join(',')}')">Edit</button>
+                    <button class="btn btn-delete" onclick="deleteRow(this)">Delete</button>
+                </td>
+            `;
+        }
+    
+        // Function to register a vehicle
+        function registerVehicle() {
+            let vehicleID = document.getElementById("vehicle-id").value.trim();
+            let make = document.getElementById("vehicle-make").value.trim();
+            let model = document.getElementById("vehicle-model").value.trim();
+            let vin = document.getElementById("vehicle-vin").value.trim();
+            let license = document.getElementById("vehicle-license").value.trim();
+    
+            if (!vehicleID || !make || !model || !vin || !license) {
+                alert("Please fill in all fields correctly.");
+                return;
+            }
+    
+            let table = document.getElementById("vehicle-table").querySelector("tbody");
+            let row = table.insertRow();
+            row.innerHTML = `<td>${vehicleID}</td><td>${make}</td><td>${model}</td><td>${vin}</td><td>${license}</td>`;
+            addRowActions(row, ['vehicle-id', 'vehicle-make', 'vehicle-model', 'vehicle-vin', 'vehicle-license']);
+    
+            // Clear input fields
+           // document.getElementById("vehicle-id").value = "";
+            //document.getElementById("vehicle-make").value = "";
+           // document.getElementById("vehicle-model").value = "";
+            //document.getElementById("vehicle-vin").value = "";
+            //document.getElementById("vehicle-license").value = "";
+        }
+    
+        // Function to register a driver
+        function registerDriver() {
+            let driverName = document.getElementById("driver-name").value.trim();
+            let driverID = document.getElementById("driver-id").value.trim();
+            let licenseType = document.getElementById("driver-license").value.trim();
+            let contactInfo = document.getElementById("driver-contact").value.trim();
+    
+            if (!driverName || !driverID || !licenseType || !contactInfo) {
+                alert("Please fill in all fields correctly.");
+                return;
+            }
+    
+            let table = document.getElementById("driver-table").querySelector("tbody");
+            let row = table.insertRow();
+            row.innerHTML = `<td>${driverName}</td><td>${driverID}</td><td>${licenseType}</td><td>${contactInfo}</td>`;
+            addRowActions(row, ['driver-name', 'driver-id', 'driver-license', 'driver-contact']);
+    
+            // Clear input fields
+            //document.getElementById("driver-name").value = "";
+           // document.getElementById("driver-id").value = "";
+            //document.getElementById("driver-license").value = "";
+            //document.getElementById("driver-contact").value = "";
+        }
+    
+        // Function to register a route
+        function registerRoute() {
+            let routeID = document.getElementById("route-id").value.trim();
+            let startLocation = document.getElementById("route-start").value.trim();
+            let endLocation = document.getElementById("route-end").value.trim();
+            let distance = document.getElementById("route-distance").value.trim();
+    
+            if (!routeID || !startLocation || !endLocation || !distance) {
+                alert("Please fill in all fields correctly.");
+                return;
+            }
+    
+            let table = document.getElementById("route-table").querySelector("tbody");
+            let row = table.insertRow();
+            row.innerHTML = `<td>${routeID}</td><td>${startLocation}</td><td>${endLocation}</td><td>${distance} KM</td>`;
+            addRowActions(row, ['route-id', 'route-start', 'route-end', 'route-distance']);
+    
+            // Clear input fields
+           // document.getElementById("route-id").value = "";
+           // document.getElementById("route-start").value = "";
+            //document.getElementById("route-end").value = "";
+            //document.getElementById("route-distance").value = "";
+        }
+    
+        // Function to edit a row
+        function editRow(button, formIds) {
+            const row = button.parentElement.parentElement;
+            const formIdArray = formIds.split(',');
+    
+            formIdArray.forEach((formId, index) => {
+                document.getElementById(formId).value = row.cells[index].textContent;
+            });
+    
+            row.remove();
+        }
+    
+        // Function to delete a row
+        function deleteRow(button) {
+            let row = button.parentElement.parentElement;
+            row.parentNode.removeChild(row);
+        }
+</script>
+</body>
+</html>

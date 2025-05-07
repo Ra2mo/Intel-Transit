@@ -1,0 +1,75 @@
+{% csrf_token %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>suggest</title>
+    <style>
+        #loginp{
+            color:red;
+            font-size:25px;
+            margin-left:8%;
+          }
+        .loginsub{
+            width:50px;
+          }
+          label,input{
+            display:block;
+            font-size:25px;
+            width:290px;
+            margin:1% 10%;
+            border-radius:11px;
+          }
+        .login{
+          margin:auto;
+          background-color:green;
+          width:50%;
+          height:300px;
+          border-radius:10px;
+        }  
+        .loginsub{
+          font-size:25px;
+          width:100px;
+        }
+        @media screen and (max-width:900px)
+        {input{
+          width:90%;
+          margin:1% 8%;
+         
+        }
+        
+        .login{
+          margin:auto;
+          background-color:green;
+          width:99%;
+          height:300px;
+          border-radius:10px; }
+        }
+        p{text-align:center;
+      }
+        a{color:yellow;}
+    </style>
+    </head>
+    <body>
+        <div class="login">
+            <form method="POST" action="">
+              {%csrf_token%}
+          <label for="password">name</label>
+          <input type="text" id="password" name="name3" required>
+          <label for="email">email</label>
+          <input type="email" id="email" name="email3" required>
+          <input type="submit" value="login" class="loginsub">
+            </form>
+            {%if messages%}
+          {%for m in messages%}
+             <li id="loginp">{{m}}</li>
+             {% endfor %}
+          {% endif %}
+          <p> <a href="/">back main page</a></P>
+          </div>
+       
+        </body>
+        </html>
+    

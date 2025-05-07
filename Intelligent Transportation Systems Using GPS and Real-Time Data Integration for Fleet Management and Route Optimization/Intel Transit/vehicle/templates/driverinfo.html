@@ -1,0 +1,46 @@
+{% csrf_token %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>car</title>
+    <style>
+    
+    </style>
+    
+</head>
+<body>
+    <div>
+        <form method="POST" actions="">
+            {%csrf_token%}
+        <div class="tab-content" id="driver">
+            <h2>Driver Registration</h2>
+            <div >
+                <label for="driver-id">Name</label>
+                <input type="text" id="driver-name" pattern="[A-Za-z ]+" name="name" required>
+                <span class="error"></span>
+            </div>
+            <div >
+                <label for="driver-id">Driver ID</label>
+                <input type="text" id="driver-id" pattern="[0-9]+" name="driverid" required>
+                <span ></span>
+            </div>            
+            <div >
+                <label for="driver-license">License Type</label>
+                <input type="text" id="driver-license" name="license_type" pattern="[A-Za-z ]+" required>
+                
+            </div>
+            <div class="form-group">
+                <label for="driver-contact">Contact Info</label>
+                <input type="text" id="driver-contact" name="contactInfo" pattern="[0-9]+" required>
+        
+            </div>
+            <button  type="submit">send</button>
+        </form>
+        <p> <a href="/setups/">ruturn back now</a></p>
+    </div>
+   
+</body>
+</html>

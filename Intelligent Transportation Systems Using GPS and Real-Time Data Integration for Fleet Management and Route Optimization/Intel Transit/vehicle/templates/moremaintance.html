@@ -1,0 +1,79 @@
+{% csrf_token %}
+{% load static %}
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>route history</title>
+    <style>
+     small{
+        font-size:20px;
+     }
+    </style>
+    
+</head>
+<body>
+    <div>
+        <p>welcome to more maintainances of the car</p>
+        {%for d in maintance%}
+            <p><small>{{d.vehicle_id}}</small> <small> {{d.last_service}}</small> <small> {{d.maintanance_type}}</small> <small> {{d.next_scheduled_service}}<small></p>
+         {% endfor %}       
+        <a href="/report/">return back</a>
+    </div>
+   
+</body>
+</html>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four-Column Table</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            text-align: left;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        p {text-align: center;}
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>DRIVER_ID</th>
+                <th>LAST SERVICE</th>
+                <th>MAINTANCE TYPE</th>
+                <th>NEXT_SCHEDULED SERVICE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for d in maintance%}
+            <tr>
+                <td>{{d.vehicle_id}}</td>
+                <td>{{d.last_service}}</td>
+                <td>{{d.maintanance_type}}</td>
+                <td>{{d.next_scheduled_service}}</td>
+            </tr>
+            {% endfor %} 
+        </tbody>
+    </table>
+    <p><a href="/report/">return back</a></p>
+</body>
+</html>
